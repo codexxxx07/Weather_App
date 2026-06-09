@@ -12,16 +12,65 @@
 <body class="min-h-screen p-4 md:p-8">
     <div class="max-w-6xl mx-auto">
         <!-- Header -->
-        <header class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">Weather Dashboard</h1>
-            <button id="themeToggle" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-md hover:scale-105 transition-all duration-300">
-                <svg id="sunIcon" class="w-6 h-6 text-yellow-500 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                </svg>
-                <svg id="moonIcon" class="w-6 h-6 text-gray-700 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                </svg>
-            </button>
+        <header class="sticky top-4 z-50 mb-6">
+            <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.06)] border-b border-white/20 dark:border-white/5 overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <!-- Left: App Name -->
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                            </svg>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">Weather Dashboard</h1>
+                    </div>
+
+                    <!-- Center: Search Bar -->
+                    <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                        <div class="relative w-full group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-250" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="headerSearchInput" 
+                                placeholder="Search for places..." 
+                                class="w-full pl-12 pr-4 py-3 rounded-full bg-gray-100/80 dark:bg-slate-700/80 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white dark:focus:bg-slate-700 shadow-inner transition-all duration-250 ease-out"
+                            >
+                            <button 
+                                id="headerSearchBtn" 
+                                class="absolute inset-y-0 right-2 px-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium hover:opacity-90 hover:scale-105 transition-all duration-250 ease-out shadow-md"
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Actions -->
+                    <div class="flex items-center gap-3">
+                        <div class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100/80 dark:bg-slate-700/80">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span id="headerLocation" class="text-sm font-medium text-gray-700 dark:text-gray-300">London</span>
+                        </div>
+                        <button id="themeToggle" class="p-3 rounded-xl bg-gray-100/80 dark:bg-slate-700/80 hover:bg-gray-200 dark:hover:bg-slate-600 shadow-md hover:scale-105 hover:shadow-lg transition-all duration-250 ease-out">
+                            <svg id="sunIcon" class="w-5 h-5 text-yellow-500 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            <svg id="moonIcon" class="w-5 h-5 text-gray-700 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bottom Gradient Line -->
+                <div class="h-0.5 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+            </div>
         </header>
 
         <!-- Main Grid -->

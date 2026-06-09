@@ -5,6 +5,9 @@ const API_URL = 'https://api.weatherapi.com/v1/current.json';
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
+const headerSearchInput = document.getElementById('headerSearchInput');
+const headerSearchBtn = document.getElementById('headerSearchBtn');
+const headerLocation = document.getElementById('headerLocation');
 const errorMessage = document.getElementById('errorMessage');
 const loading = document.getElementById('loading');
 const themeToggle = document.getElementById('themeToggle');
@@ -82,6 +85,7 @@ async function getForecast(city) {
 // Update main weather UI
 function updateWeatherUI(data) {
     cityName.textContent = data.location.name;
+    headerLocation.textContent = data.location.name;
     temperature.textContent = `${Math.round(data.current.temp_c)}°`;
     condition.textContent = data.current.condition.text;
     weatherIcon.src = data.current.condition.icon;
@@ -163,10 +167,30 @@ searchInput.addEventListener('keypress', (e) => {
     }
 });
 
+// Header search functionality
+if (headerSearchBtn) {
+    headerSearchBtn.addEventListener('click', handleHeaderSearch);
+}
+if (headerSearchInput) {
+    headerSearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleHeaderSearch();
+        }
+    });
+}
+
 async function handleSearch() {
     const city = searchInput.value.trim();
     if (city) {
         await getWeather(city);
         searchInput.value = '';
+    }
+}
+
+async function handleHeaderSearch() {
+    const city = headerSearchInput.value.trim();
+    if (city) {
+        await getWeather(city);
+        headerSearchInput.value = '';
     }
 }
