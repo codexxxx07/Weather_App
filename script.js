@@ -1,6 +1,6 @@
 // API Key - Replace with your actual WeatherAPI key
 const API_KEY = 'b8fa402c14ea441994e195421260906';
-const API_URL = 'https://api.weatherapi.com/v1/current.json';
+const API_URL = 'https://api.weatherapi.com/v1/forecast.json';
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
@@ -14,27 +14,43 @@ const themeToggle = document.getElementById('themeToggle');
 
 // Weather Elements
 const cityName = document.getElementById('cityName');
+const countryName = document.getElementById('countryName');
 const currentDate = document.getElementById('currentDate');
+const currentTime = document.getElementById('currentTime');
 const temperature = document.getElementById('temperature');
 const condition = document.getElementById('condition');
+const feelsLike = document.getElementById('feelsLike');
 const weatherIcon = document.getElementById('weatherIcon');
 const humidity = document.getElementById('humidity');
 const windSpeed = document.getElementById('windSpeed');
 const precipitation = document.getElementById('precipitation');
 const forecast = document.getElementById('forecast');
 
+// Main Card Elements
+const mainWindSpeed = document.getElementById('mainWindSpeed');
+const mainHumidity = document.getElementById('mainHumidity');
+const uvIndex = document.getElementById('uvIndex');
+const sunrise = document.getElementById('sunrise');
+const sunset = document.getElementById('sunset');
+const visibility = document.getElementById('visibility');
+const pressure = document.getElementById('pressure');
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    updateDate();
+    updateDateTime();
     loadDefaultCity();
     setupThemeToggle();
+    // Update time every minute
+    setInterval(updateDateTime, 60000);
 });
 
-// Update current date
-function updateDate() {
+// Update current date and time
+function updateDateTime() {
     const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    currentDate.textContent = now.toLocaleDateString('en-US', options);
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+    currentDate.textContent = now.toLocaleDateString('en-US', dateOptions);
+    currentTime.textContent = now.toLocaleTimeString('en-US', timeOptions);
 }
 
 // Load default city
@@ -48,7 +64,7 @@ async function getWeather(city) {
     hideError();
     
     try {
-        const response = await fetch(`${API_URL}/current.json?key=${API_KEY}&q=${city}`);
+        const response = await fetch(`${API_URL}?key=${API_KEY}&q=${city}&days=1&aqi=no&alerts=no`);
         const data = await response.json();
         
         if (data.error) {
@@ -85,15 +101,31 @@ async function getForecast(city) {
 // Update main weather UI
 function updateWeatherUI(data) {
     cityName.textContent = data.location.name;
+    countryName.textContent = data.location.country;
     headerLocation.textContent = data.location.name;
     temperature.textContent = `${Math.round(data.current.temp_c)}°`;
     condition.textContent = data.current.condition.text;
+    feelsLike.textContent = `Feels like ${Math.round(data.current.feelslike_c)}°`;
     weatherIcon.src = data.current.condition.icon;
     weatherIcon.alt = data.current.condition.text;
     
     humidity.textContent = `${data.current.humidity}%`;
     windSpeed.textContent = `${data.current.wind_kph} km/h`;
     precipitation.textContent = `${data.current.precip_mm} mm`;
+    
+    // Main card elements
+    mainWindSpeed.textContent = `${data.current.wind_kph} km/h`;
+    mainHumidity.textContent = `${data.current.humidity}%`;
+    uvIndex.textContent = data.current.uv;
+    visibility.textContent = `${data.current.vis_km} km`;
+    pressure.textContent = `Pressure: ${data.current.pressure_mb} mb`;
+    
+    // Sunrise and sunset from forecast data
+    if (data.forecast && data.forecast.forecastday && data.forecast.forecastday[0]) {
+        const astro = data.forecast.forecastday[0].astro;
+        sunrise.textContent = astro.sunrise;
+        sunset.textContent = astro.sunset;
+    }
 }
 
 // Update forecast UI
