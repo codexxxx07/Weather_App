@@ -37,12 +37,38 @@ const pressure = document.getElementById('pressure');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle skeleton loading screen
+    handleSkeletonLoader();
+    
     updateDateTime();
     loadDefaultCity();
     setupThemeToggle();
     // Update time every minute
     setInterval(updateDateTime, 60000);
 });
+
+// Handle skeleton loading screen
+function handleSkeletonLoader() {
+    const skeletonLoader = document.getElementById('skeletonLoader');
+    const mainContent = document.getElementById('mainContent');
+    
+    // Show skeleton, hide main content initially
+    if (skeletonLoader && mainContent) {
+        // After 1.5 seconds, fade out skeleton and fade in main content
+        setTimeout(() => {
+            skeletonLoader.style.opacity = '0';
+            
+            // After fade completes, hide skeleton and show main content
+            setTimeout(() => {
+                skeletonLoader.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                // Trigger reflow to enable transition
+                void mainContent.offsetWidth;
+                mainContent.style.opacity = '1';
+            }, 500);
+        }, 1500);
+    }
+}
 
 // Update current date and time
 function updateDateTime() {
