@@ -8,9 +8,8 @@ A modern, production-ready weather dashboard that delivers real-time weather dat
 
 ## 🖼️ Preview
 
-<!-- Add your screenshots/GIFs here in the /screenshots folder -->
-<!-- Example: ![Dashboard Preview](./screenshots/dashboard-preview.png) -->
-<!-- Example: ![Dark Mode](./screenshots/dark-mode.png) -->
+Example: ![Light Mode](/assets/LightMode.png)
+Example: ![Dark Mode](/assets/DarkMode.png)
 
 ---
 
