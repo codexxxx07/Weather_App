@@ -231,6 +231,12 @@ This project is open-source and available under the MIT License. Feel free to us
 
 ---
 
+## 🧩 Internship Note
+
+Built as part of a hands-on internship, emphasizing real-world problem solving, performance optimization, and modern UI/UX practices.
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! If you'd like to improve this project:
